@@ -1,0 +1,74 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+      "title": "Product API",
+      "version": "1.0.0",
+      "description": "API for product management"
+    },
+    "paths": {
+      "/products": {
+        "get": {
+          "summary": "Get all products (optionally filtered by category)",
+          "parameters": [
+            {
+              "in": "query",
+              "name": "category",
+              "schema": { "type": "string" }
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "List of products"
+            }
+          }
+        },
+        "post": {
+          "summary": "Add a new product",
+          "requestBody": {
+            "required": true,
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Product"
+                }
+              }
+            }
+          },
+          "responses": {
+            "201": { "description": "Product created" }
+          }
+        }
+      },
+      "/products/{id}": {
+        "get": {
+          "summary": "Get product by ID",
+          "parameters": [
+            {
+              "in": "path",
+              "name": "id",
+              "required": true,
+              "schema": { "type": "string" }
+            }
+          ],
+          "responses": {
+            "200": { "description": "A product" },
+            "404": { "description": "Not found" }
+          }
+        }
+      }
+    },
+    "components": {
+      "schemas": {
+        "Product": {
+          "type": "object",
+          "properties": {
+            "name": { "type": "string" },
+            "category": { "type": "string" },
+            "price": { "type": "number" },
+            "inStock": { "type": "boolean" }
+          },
+          "required": ["name", "category", "price"]
+        }
+      }
+    }
+  }
